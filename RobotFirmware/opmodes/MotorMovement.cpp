@@ -10,61 +10,48 @@ Example: //This is a comment (VD)
 
 static HexaDCMotor leftMotor {{ .dirPin = MOTOR_L_DIR, .pwmPin = MOTOR_L_PWM }};
 static HexaDCMotor rightMotor {{ .dirPin = MOTOR_R_DIR, .pwmPin = MOTOR_R_PWM , .flipped = true}};
+static TankDrive tank(leftMotor, rightMotor);
 
-class MotorMovement : public NRLOpMode {
-    int _movespeed=0;   //Keep the speed at 0 to avoid any movement at the start of the program, else it'll probably do some weird bullshit (VD)
-    int _reverseSpeed=0; //Same for this, do any speed changes in loop and not in the class-scope (VD)
-
+class MotorMovement : public NRLOpMode
+{
+    int Scale = 1.0;
+    
 public:
-    void init() override {
+    void init() override 
+    {
         leftMotor.begin();  
         rightMotor.begin();
     }
 
-    void loop() override {
+    void loop() override 
+    {
     //make sure to test the lines one by one by bypassing other lines (AN)
-    //This seems to be fine for now, however will need to add a ramp up feature to avoid sudden jerks, or maybe not. Will need to discuss (VD)
-    //Will also require an if statement or some shit from the controller code to change this speed. (VD)
+   
+        tank.setRampRate(0.5f); //Sets the ramp rate to half, makes the control smoother in exchange for slower response, may need to adjust(VD)
 
-        moveForward(_moveSpeed);
-        moveBackward(_reverseSpeed);
-        turnLeft(_moveSpeed);
-        turnRight(_moveSpeed);
+        
+        tank.setScale(gamepad1.pressed(button_LB) ? 0.5f : 1.0f); //Sets the scale to 0.5 if the left bumper is pressed, otherwise sets it to 1.0 (VD)
+        telemetry.addData("Scale", tank.getScale());
 
-        telemetry.addData("Speed Setting", (float)_moveSpeed);
-        telemetry.addData("Reverse Speed", (float)_reverseSpeed);
+        tank.drive(gamepad1.leftY(), gamepad1.rightX());
+
+        //Speed telemtry
+        telemetry.addData("Left Motor Speed", leftMotor.getSpeed());
+        telemetry.addData("Right Motor Speed", rightMotor.getSpeed());
+
+        //Joystick telemetry
+        telemetry.addData("Left Joystick Y", gamepad1.leftY());
+        telemetry.addData("Right Joystick X", gamepad1.rightX());
     }
 
-    void stop() override {
+    void stop() override   
+    {
         leftMotor.setSpeed(0);
-        rightMotor.setSpeed(0);.
+        rightMotor.setSpeed(0);
     }
 
-    //Forward movement
-    void moveForward(int speed) {
-    leftMotor.setSpeed(speed);
-    rightMotor.setSpeed(speed);
-
-    //Backward movement
-    void moveBackward(int speed) {
-        leftMotor.setSpeed(-speed);
-        rightMotor.setSpeed(-speed);
-    }
-
-    //Turn left movement
-    void turnLeft(int speed) {
-        leftMotor.setSpeed(-speed);
-        rightMotor.setSpeed(speed);
-    }
-
-    //Turn right movement
-    void turnRight(int speed) {
-        leftMotor.setSpeed(speed);
-        rightMotor.setSpeed(-speed);
-  }
 };
 
 
 
-
-REGISTER_OPMODE(MotorMovement, "adb", TELEOP);
+REGISTER_OPMODE(MotorMovement, "tank", TELEOP);
