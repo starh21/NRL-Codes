@@ -20,19 +20,26 @@ public:
 
     void loop() override {
         // 1. Check the status of the Right Toggle switch
-        bool currentButtonState = gamepad1.right_toggle; 
+        bool currentButtonState = gamepad1.justPressed(BTN_RT); //Sets the button state of right trigger (VD)
 
         // 2. Flip the positions only on a clean toggle flip
-        if (currentButtonState && !lastButtonState) {
+        if (currentButtonState && !lastButtonState)
+        {
             armExtended = !armExtended; 
         }
-        lastButtonState = currentButtonState; 
-
-        // 3. Command the physical servo to move
-        if (armExtended) {
-            arm.setPosition(EXTENDED_ANGLE);
-        } else {
-            arm.setPosition(RETRACTED_ANGLE);
+        
+       
+        if(lastButtonState != currentButtonState)
+        { 
+            if (armExtended)
+            {
+                arm.setPosition(EXTENDED_ANGLE);
+            }
+            else 
+            {
+                arm.setPosition(RETRACTED_ANGLE);
+            }
+        
         }
     }
 
