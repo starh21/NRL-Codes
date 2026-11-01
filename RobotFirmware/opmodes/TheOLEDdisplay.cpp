@@ -41,8 +41,8 @@ public:
       } else if (pctDiff < 0) {
         if (currentPct < 10) {
           shouldUpdate = true;                   // below 10%: every 1% drop(AN)
-        } else if (-pctDiff >= 20) {
-          shouldUpdate = true;                   // otherwise: every 20% drop(AN)
+        } else if (-pctDiff >= 10) {
+          shouldUpdate = true;                   // otherwise: every 10% drop(AN)
         }
       }
     }
