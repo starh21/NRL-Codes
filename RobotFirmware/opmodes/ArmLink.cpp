@@ -20,11 +20,7 @@ public:
 
     void loop() override {
         // 1. Check the status of the Right Toggle switch
-<<<<<<< Updated upstream
-        bool currentButtonState = gamepad1.justPressed(BTN_RT); //Sets the button state of right trigger (VD)
-=======
-        bool currentButtonState = justPressed(gamepad1.BTN_RT); //Sets the button state of right trigger (VD)
->>>>>>> Stashed changes
+       bool currentButtonState = gamepad1.justPressed(BTN_RT); //Sets the button state of right trigger (VD)
 
         // 2. Flip the positions only on a clean toggle flip
         if (currentButtonState && !lastButtonState)
