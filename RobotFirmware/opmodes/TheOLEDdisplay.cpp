@@ -10,7 +10,7 @@ public:
 
     // Estimate of battery percentage from voltage(AN)
   int getBatteryPercentage(float volts) {
-    float minVolt = 9.0;    // 0%
+    float minVolt = 10.0;    // 0%
     float maxVolt = 12.6;   // 100%
     int pct = (int)(((volts - minVolt) / (maxVolt - minVolt)) * 100);
     if (pct > 100) pct = 100;
@@ -38,11 +38,11 @@ public:
 
       if (pctDiff > 0) {
         if (pctDiff >= 5) shouldUpdate = true;   // charging: every 5%(AN)
-      } else if (pctDiff < 0) {
+       } else if (pctDiff < 0) {
         if (currentPct < 10) {
           shouldUpdate = true;                   // below 10%: every 1% drop(AN)
-        } else if (-pctDiff >= 10) {
-          shouldUpdate = true;                   // otherwise: every 10% drop(AN)
+        } else if (-pctDiff >= 5) {
+          shouldUpdate = true;                   // otherwise: every 5% drop(AN)
         }
       }
     }
