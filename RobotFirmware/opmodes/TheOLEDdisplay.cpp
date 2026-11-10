@@ -10,7 +10,7 @@ public:
 
     // Estimate of battery percentage from voltage(AN)
   int getBatteryPercentage(float volts) {
-    float minVolt = 9.0;    // 0%
+    float minVolt = 10.0;    // 0%
     float maxVolt = 12.6;   // 100%
     int pct = (int)(((volts - minVolt) / (maxVolt - minVolt)) * 100);
     if (pct > 100) pct = 100;
