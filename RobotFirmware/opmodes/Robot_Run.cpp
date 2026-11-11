@@ -35,7 +35,7 @@ public:
 
         //Joystick telemetry
         telemetry.addData("Left Joystick Y", gamepad1.leftY());
-        telemetry.addData("Right Joystick X", gamepad1.rightX());
+        telemetry.addData("Left Joystick X", gamepad1.leftX());
 
         //SERVO CONTROL
         if(gamepad1.rightY() < -0.5f) {
