@@ -62,12 +62,18 @@ public:
     static void releaseCalibMotors();
     static void sendIMUState();
     static void tickCalibIMU();   // call from main loop — defers I2C out of ISR context
+    static void sendLineState();
+    static void releaseCalibLine();
+    static void tickCalibLine();  // call from main loop — defers ADC scan + NVS + esp_now_send out of ISR context
     static void tickCalibServoMotor();   // call from main loop — defers calib servo/motor I2C+esp_now_send out of ISR context
     static void tickHeading();    // call from main loop — reads IMU + integrates heading at ~100 Hz
     static void tickPairing();
 
     // Heading API — usable from any OpMode
     static float getHeading();      // degrees since last resetHeading() / zeroHeading()
+    // Same rotation, but nothing ever re-zeroes it (zeroHeading(), DriveActions
+    // turns, the IMU screen): for code that keeps its own reference angle.
+    static float getHeadingFree();
     static bool  isHeadingReady();  // true once bias calibration (~0.5 s) is complete
     static void  zeroHeading();     // set heading to 0°, keep existing bias (use before a turn)
     static void  resetHeading();    // full reset: zero heading + re-collect bias (robot must be still)

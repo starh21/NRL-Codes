@@ -40,7 +40,7 @@ extern "C" void NRL_ABI_MARKER();
 //    init()  — once when INIT is pressed. Set up hardware here.
 //    start() — once when the match starts, right before the first loop().
 //              Queue an AUTO routine here and it runs exactly once.
-//    loop()  — 100Hz. TELEOP: for 2:30; AUTO: for 60 seconds.
+//    loop()  — 100Hz. TELEOP and AUTO: for 2:30.
 //    stop()  — once on STOP. Motors do NOT stop automatically —
 //              always call drive.stop() (or motor.stop()) here.
 //
@@ -111,13 +111,13 @@ public:
 
     virtual void init()  {}  // optional: setup before START
     virtual void start() {}  // optional: runs once when the match starts, before the first loop()
-    virtual void loop()  {}  // called at 100Hz — TELEOP: for 2:30 then exits; AUTO: for 60 seconds then exits
+    virtual void loop()  {}  // called at 100Hz — TELEOP and AUTO: for 2:30, then exits
     virtual void stop()  {}  // optional: cleanup on STOP — motors do NOT stop automatically; always call drive.stop() here
 
     // --------------------------------------------------------
     //  runBlocking(action)
     //  Executes action to completion, blocking the caller.
-    //  Checks the stop signal and 60-second AUTO deadline every tick.
+    //  Checks the stop signal and the 2:30 AUTO deadline every tick.
     //  Use inside run() for AUTO sequences.
     // --------------------------------------------------------
     void runBlocking(ActionPtr action);

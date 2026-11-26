@@ -1,8 +1,9 @@
 {
   "source_lib": "RobotFirmware\\lib\\HexaNRL",
-  "sdk_version": "1.4.1",
-  "built_from_commit": "036661d7fa9340e198bf3f6d376121ae8c214f59",
-  "built_at": "2026-10-10T14:36:33.316861Z",
+  "firmware_version": "1.5.0",
+  "sdk_version": "1.5.0",
+  "built_from_commit": "db4bd4f18392f663411d64ecdbde52376dce8dea",
+  "built_at": "2026-10-31T16:24:42.821159Z",
   "harvested_from_project": "RobotFirmware",
   "harvested_env": "robot",
   "cxx_path": "C:\\Users\\thein\\.platformio\\packages\\toolchain-xtensa-esp32s3\\bin\\xtensa-esp32s3-elf-g++.exe",

@@ -17,6 +17,7 @@
 #include "BoardPins.h"
 #include "HexaLED.h"
 #include "HexaPower.h"
+#include "HexaLineArray.h"
 
 // ── Board-aware hardware presets ─────────────────────────────────────────────
 // Construct the on-board OLED / IMU without hard-coding which I2C bus, address,
@@ -36,6 +37,17 @@ inline HexaOLEDConfig hexaOledConfig() {
 inline HexaIMUConfig hexaImuConfig() {
     return HexaIMUConfig{ .i2cAddr = 0x6B, .wire = &Wire,
                           .sdaPin  = I2C_SDA, .sclPin = I2C_SCL };
+}
+
+// 8-channel IR line array on the board's mux pins:
+//
+//     HexaLineArray line{ hexaLineConfig() };
+//
+// For a sensor bar whose channel 0 is the RIGHT-most sensor, edit a copy first:
+//     HexaLineArrayConfig cfg = hexaLineConfig(); cfg.reversed = true;
+inline HexaLineArrayConfig hexaLineConfig() {
+    return HexaLineArrayConfig{ .selPins = { LINE_SEL_0, LINE_SEL_1, LINE_SEL_2 },
+                                .sigPin  = LINE_SIG };
 }
 
 extern HexaOLED           botOled;       // SSD1306 128×64 — used by pairing UI (do not rename)
