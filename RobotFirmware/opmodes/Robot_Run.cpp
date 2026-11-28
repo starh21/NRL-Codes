@@ -8,9 +8,11 @@ static TankDrive tank(leftMotor, rightMotor);
 
 static HexaServo gripper {{ .signalPin = SERVO_4, .startAngle = 90.0f, .settleMs = 0 }};
 static HexaServo arm {{ .signalPin = SERVO_3, .startAngle = 120.0f, .settleMs = 0 }};
+static HexaServo bay {{ .signalPin = SERVO_2, .startAngle = 90.0f, .settleMs = 0}};
 
 class Robot_Run : public NRLOpMode {
     int Scale = 1.0;
+    bool _down = false;
 public:
     void init() override {
         // Runs once when INIT is pressed — begin() your hardware here.
@@ -18,6 +20,7 @@ public:
         rightMotor.begin();
         gripper.begin();
         arm.begin();
+        bay.begin();
     }
 
     void loop() override {
@@ -35,7 +38,7 @@ public:
 
         //Joystick telemetry
         telemetry.addData("Left Joystick Y", gamepad1.leftY());
-        telemetry.addData("Left Joystick X", gamepad1.leftX());
+        telemetry.addData("Right Joystick X", gamepad1.rightX());
 
         //SERVO CONTROL
         if(gamepad1.rightY() < -0.5f) {
@@ -57,6 +60,13 @@ public:
             telemetry.addData("Gripper Position", gripper.getPosition());
             
         }
+
+        if(gamepad1.justPressed(BTN_DPAD_UP))
+        {
+            bay.setPosition(_down ? 90.0f : 160.0f);
+            _down = !_down;
+            telemetry.addData("Bay Position", bay.getPosition());
+        }
     }
 
     void stop() override {
@@ -65,6 +75,7 @@ public:
         rightMotor.setSpeed(0.0f);
         gripper.detach();
         arm.detach();
+        bay.detach();
     }
 };
 
